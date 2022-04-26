@@ -15,7 +15,7 @@ class UpgradeDBCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'azw:upgrade-db
+    protected $signature = 'phoenix:upgrade-db
                             {--dry-run : Check which control would be executed and prints the result}
                             {--exec-only= : Comma divided numeric indexes for the scripts to force execute ($skipMe variabile WILL BE honored)}
                             ';
