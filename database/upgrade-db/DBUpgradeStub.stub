@@ -1,0 +1,22 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class ClassName extends BaseUpgradeDBAbstractClass
+{
+    protected function setInfoLine()
+    {
+        $this->infoLine = '';
+    }
+
+    protected function condition()
+    {
+        return;
+    }
+
+    protected function upgrade()
+    {
+        //
+    }
+}
