@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Subscription;
+use App\Models\NumerologyContent;
 use Illuminate\Http\Request;
 
-class SubscriptionController extends Controller
+class NumerologyContentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class SubscriptionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Subscription  $subscription
+     * @param  \App\Models\NumerologyContent  $numerologyContent
      * @return \Illuminate\Http\Response
      */
-    public function show(Subscription $subscription)
+    public function show(NumerologyContent $numerologyContent)
     {
         //
     }
@@ -52,10 +52,10 @@ class SubscriptionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Subscription  $subscription
+     * @param  \App\Models\NumerologyContent  $numerologyContent
      * @return \Illuminate\Http\Response
      */
-    public function edit(Subscription $subscription)
+    public function edit(NumerologyContent $numerologyContent)
     {
         //
     }
@@ -64,10 +64,10 @@ class SubscriptionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Subscription  $subscription
+     * @param  \App\Models\NumerologyContent  $numerologyContent
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Subscription $subscription)
+    public function update(Request $request, NumerologyContent $numerologyContent)
     {
         //
     }
@@ -75,10 +75,10 @@ class SubscriptionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Subscription  $subscription
+     * @param  \App\Models\NumerologyContent  $numerologyContent
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Subscription $subscription)
+    public function destroy(NumerologyContent $numerologyContent)
     {
         //
     }
