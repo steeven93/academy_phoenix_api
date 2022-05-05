@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('total_price');
             $table->string('payment');
             $table->boolean('payed')->default(false);
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('address_id');
+            $table->unsignedBigInteger('plans_subscription_id');
             $table->timestamps();
         });
     }

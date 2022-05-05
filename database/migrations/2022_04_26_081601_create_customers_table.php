@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('surname');
             $table->string('birthday');
             $table->string('email')->nullable();
+            $table->unsignedBigInteger('users_id');
             $table->timestamps();
         });
     }

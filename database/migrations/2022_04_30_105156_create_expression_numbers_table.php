@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('content_dark')->nullable();
             $table->string('ipo')->nullable();
             $table->string('iper')->nullable();
+            $table->unsignedBigInteger('expression_number_category_id');
             $table->timestamps();
         });
     }

@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\AddressRequest;
+use App\Http\Resources\Api\V1\AddressResource;
+use App\Http\Resources\Api\V1\AddressResources;
+use App\Models\Address;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdressController extends Controller
@@ -12,9 +17,9 @@ class AdressController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function getUserAddresses(User $user)
     {
-        //
+        return (new AddressResources($user->addresses))->resolve();
     }
 
     /**
@@ -23,20 +28,10 @@ class AdressController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddressRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $address = Address::create($request->all());
+        return (new AddressResource($address))->resolve();
     }
 
     /**
@@ -46,9 +41,9 @@ class AdressController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AddressRequest $request, Address $address)
     {
-        //
+        $address->update($request->all());
     }
 
     /**
@@ -57,8 +52,8 @@ class AdressController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Address $address)
     {
-        //
+        $address->delete();
     }
 }

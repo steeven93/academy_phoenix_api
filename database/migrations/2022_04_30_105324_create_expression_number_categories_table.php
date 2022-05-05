@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('level')->default(0);
+            $table->unsignedBigInteger('category_id')->nullable();
             $table->timestamps();
         });
     }
