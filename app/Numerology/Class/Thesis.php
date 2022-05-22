@@ -4,14 +4,14 @@ namespace App\Numerology\Class;
 
 use App\Functions\Matrix;
 use App\Models\Anima;
-use App\Models\CasellaGrigliaPercentuale;
-use App\Models\Griglia;
-use App\Models\Lezionekarmica;
+use App\Models\Grill;
+use App\Models\GrillBox;
+use App\Models\KarmicLesson;
 use App\Models\Number;
 use App\Models\Numeroespressione;
 use App\Models\Personality;
 use App\Models\Personalyear;
-use App\Models\Triade;
+use App\Models\Triad;
 use Illuminate\Support\Arr;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Html;
@@ -34,9 +34,9 @@ class Thesis
 
     public $dir;
 
-    public $analizzare;
+    public $analyze;
 
-    public $numero_espressione;
+    public $expression_number;
 
     public function __construct()
     {
@@ -44,13 +44,14 @@ class Thesis
         $this->now_time = now();
         $this->dir = plugin_dir_path( __DIR__ );
         $this->templateProcessor = new TemplateProcessor($this->dir.'templates/template_word.docx');
-        $this->analizzare = array();
+        $this->analyze = array();
     }
+
     public function create($customer){
         $this->matrix->getAllValues($customer);
         $this->matrix->get_summs();
         $this->matrix->get_matrix();
-        $this->numero_espressione = $this->matrix->sums->sum_vowel_unvowel["numero_espressione"];
+        $this->expression_number = $this->matrix->sums->sum_vowel_unvowel["numero_espressione"];
         //imposto il nome del file
         $fileName = $customer->id.'_'.$customer->name.'_'.$customer->lastname.'.docx';
 
@@ -83,7 +84,7 @@ class Thesis
         $this->templateProcessor->setValue('name', ucfirst($customer->name));
         $this->templateProcessor->setValue('lastname', ucfirst($customer->lastname));
         $this->templateProcessor->setValue('birthday', $customer->birthday);
-        $this->templateProcessor->setValue('numero_espressione', $this->numero_espressione);
+        $this->templateProcessor->setValue('numero_espressione', $this->expression_number);
 
         $this->templateProcessor->setValue('sum_f', $this->matrix->sums->sum_vowel_unvowel["sum_f"]);
         $this->templateProcessor->setValue('sum_e', $this->matrix->sums->sum_vowel_unvowel["sum_e"]);
@@ -101,18 +102,16 @@ class Thesis
 
     public function analisi_numero_espressione()
     {
-        $contents_espressione    =   Numeroespressione::where("numero_ref", $this->matrix->sums->sum_vowel_unvowel["numero_espressione"])->get();
-        $content_espressione = $contents_espressione->random();
+        $contents_espressione    =   ExpressionNumber::getExpressionNumberDefault($this->matrix->sums->sum_vowel_unvowel["numero_espressione"])->get();
 
-        $this->templateProcessor->setValue('content_espressione', $content_espressione->descrizione);
+        $this->templateProcessor->setValue('content_espressione', $content_espressione->description);
 
-        $contents_num_espressione = Numeroespressione::where("numero_ref",$this->matrix->sums->sum_vowel_unvowel["numero_espressione"])->get();
-        $content_num_espressione = $contents_num_espressione->random();
+        $contents_num_espressione = ExpressionNumber::getExpressionNumberExpression($this->matrix->sums->sum_vowel_unvowel["numero_espressione"])->get();
 
-        $this->templateProcessor->setValue('content_num_espressione_luce', $content_num_espressione->descrizione_luce);
-        $this->templateProcessor->setValue('content_num_espressione_ombra', $content_num_espressione->descrizione_ombra);
-        $this->templateProcessor->setValue('content_num_espressione_ipo', $content_num_espressione->trappole_ipo);
-        $this->templateProcessor->setValue('content_num_espressione_iper', $content_num_espressione->trappole_iper);
+        $this->templateProcessor->setValue('content_num_espressione_luce', $content_num_espressione->content_light);
+        $this->templateProcessor->setValue('content_num_espressione_ombra', $content_num_espressione->content_shadow);
+        $this->templateProcessor->setValue('content_num_espressione_ipo', $content_num_espressione->ipo);
+        $this->templateProcessor->setValue('content_num_espressione_iper', $content_num_espressione->iper);
     }
 
     public function analisi_radice_generativa_epf()
@@ -124,19 +123,19 @@ class Thesis
         $derived_sum_unvowel = $this->matrix->sums->unvowel["dev_sum_f_two"];
         foreach($sum_split as $sp)
         {
-            if($sp != $this->numero_espressione && $sp != 0)
+            if($sp != $this->expression_number && $sp != 0)
             {
-                $contenuto = Numeroespressione::where('numero_ref', $sp)->inRandomOrder()->first();
+                $contenuto = ExpressionNumber::getExpressionNumberExpression($sp)->first();
                 array_push($replacements,
                     [
                         'analizzare_p_f' => $sp,
-                        'content_analizzare_luce_f' => $contenuto->descrizione_luce ,
-                        'content_analizzare_ombra_f' => $contenuto->descrizione_ombra ,
-                        'content_analizzare_ipo_f' => $contenuto->trappole_ipo,
-                        'content_analizzare_iper_f' => $contenuto->trappole_iper,
+                        'content_analizzare_luce_f' => $contenuto->content_light ,
+                        'content_analizzare_ombra_f' => $contenuto->content_shadow ,
+                        'content_analizzare_ipo_f' => $contenuto->ipo,
+                        'content_analizzare_iper_f' => $contenuto->iper,
                     ]
                 );
-                array_push($this->analizzare, $sp);
+                array_push($this->analyze, $sp);
             }
         }
 
@@ -146,17 +145,17 @@ class Thesis
             $prima_parte_split = str_split($prima_parte);
             foreach($prima_parte_split as $sp)
             {
-                if($sp != $this->numero_espressione && $sp != 0)
+                if($sp != $this->expression_number && $sp != 0)
                 {
-                    $contenuto = Numeroespressione::where('numero_ref', $sp)->inRandomOrder()->first();
+                    $contenuto = ExpressionNumber::getExpressionNumberExpression($sp)->first();
                     array_push($replacements, [
                         'analizzare_p_f' => $sp,
-                        'content_analizzare_luce_f' => $contenuto->descrizione_luce ,
-                        'content_analizzare_ombra_f' => $contenuto->descrizione_ombra ,
-                        'content_analizzare_ipo_f' => $contenuto->trappole_ipo,
-                        'content_analizzare_iper_f' => $contenuto->trappole_iper,
+                        'content_analizzare_luce_f' => $contenuto->content_light ,
+                        'content_analizzare_ombra_f' => $contenuto->content_shadow ,
+                        'content_analizzare_ipo_f' => $contenuto->ipo,
+                        'content_analizzare_iper_f' => $contenuto->iper,
                     ]);
-                    array_push($this->analizzare, $sp);
+                    array_push($this->analyze, $sp);
                 }
             }
             $seconda_parte = $this->matrix->derived_sum($this->matrix->derived_sum($this->matrix->sums->sum_vowel_unvowel["sum_f"]));
@@ -169,16 +168,14 @@ class Thesis
         }
 
         //anima
-        $contents_anima = Anima::where('numero_ref', $derived_sum_vowel)->get();
-        $content_anima = $contents_anima->random();
+        $contents_anima = ExpressionNumber::getExpressionNumberSoul($derived_sum_vowel)->first();
         $this->templateProcessor->setValue('numero_anima', $derived_sum_vowel);
-        $this->templateProcessor->setValue('content_anima', $content_anima->descrizione_luce);
+        $this->templateProcessor->setValue('content_anima', $content_anima->content_light);
 
         //personalita
-        $contens_personalita = Personality::where('numero_ref', $derived_sum_unvowel)->get();
-        $content_personalita = $contens_personalita->random();
+        $contens_personalita = ExpressionNumber::getExpressionNumberPersonality($derived_sum_unvowel)->first();
         $this->templateProcessor->setValue('numero_personalita', $derived_sum_unvowel);
-        $this->templateProcessor->setValue('content_personalita', $content_personalita->descrizione_luce);
+        $this->templateProcessor->setValue('content_personalita', $content_personalita->content_light);
 
         $this->templateProcessor->cloneBlock('block_epf_riptezione', 0, true, false, $replacements);
 
@@ -191,19 +188,19 @@ class Thesis
 
         foreach($sum_split as $sp)
         {
-            if($sp != $this->numero_espressione && !in_array($sp, $this->analizzare))
+            if($sp != $this->expression_number && !in_array($sp, $this->analyze))
             {
-                $contenuto = Numeroespressione::where('numero_ref', $sp)->inRandomOrder()->first();
+                $contenuto = ExpressionNumber::getExpressionNumberExpression($sp)->first();
                 array_push($replacements,
                     [
                         'numero_analizzare' => $sp,
-                        'content_luce_e' => $contenuto->descrizione_luce ,
-                        'content_ombra_e' => $contenuto->descrizione_ombra ,
-                        'content_ipo_e' => $contenuto->trappole_ipo,
-                        'content_iper_e' => $contenuto->trappole_iper
+                        'content_luce_e' => $contenuto->content_light ,
+                        'content_ombra_e' => $contenuto->content_shadow ,
+                        'content_ipo_e' => $contenuto->ipo,
+                        'content_iper_e' => $contenuto->iper
                     ]
                 );
-                array_push($this->analizzare, $sp);
+                array_push($this->analyze, $sp);
             }
         }
 
@@ -228,19 +225,19 @@ class Thesis
 
         foreach($sum_split as $sp)
         {
-            if($sp != $this->numero_espressione && !in_array($sp, $this->analizzare))
+            if($sp != $this->expression_number && !in_array($sp, $this->analyze))
             {
-                $contenuto = Numeroespressione::where('numero_ref', $sp)->inRandomOrder()->first();
+                $contenuto = ExpressionNumber::getExpressionNumberExpression($sp)->first();
                 array_push($replacements,
                     [
                         'num_m_analizzare' => $sp,
-                        'content_luce_m' => $contenuto->descrizione_luce ,
-                        'content_ombra_m' => $contenuto->descrizione_ombra ,
-                        'content_ipo_m' => $contenuto->trappole_ipo,
-                        'content_iper_m' => $contenuto->trappole_iper
+                        'content_luce_m' => $contenuto->content_light ,
+                        'content_ombra_m' => $contenuto->content_shadow ,
+                        'content_ipo_m' => $contenuto->ipo,
+                        'content_iper_m' => $contenuto->iper
                     ]
                 );
-                array_push($this->analizzare, $sp);
+                array_push($this->analyze, $sp);
             }
         }
 
@@ -260,15 +257,15 @@ class Thesis
 
     public function valutazione_griglia_dinamica()
     {
-        $content_1  =   Griglia::where('count_number', $this->matrix->matrix->tabella[1]["count"])->where('numero_ref', '1')->inRandomOrder()->first();
-        $content_2  =   Griglia::where('count_number', $this->matrix->matrix->tabella[2]["count"])->where('numero_ref', '2')->inRandomOrder()->first();
-        $content_3  =   Griglia::where('count_number', $this->matrix->matrix->tabella[3]["count"])->where('numero_ref', '3')->inRandomOrder()->first();
-        $content_4  =   Griglia::where('count_number', $this->matrix->matrix->tabella[4]["count"])->where('numero_ref', '4')->inRandomOrder()->first();
-        $content_5  =   Griglia::where('count_number', $this->matrix->matrix->tabella[5]["count"])->where('numero_ref', '5')->inRandomOrder()->first();
-        $content_6  =   Griglia::where('count_number', $this->matrix->matrix->tabella[6]["count"])->where('numero_ref', '6')->inRandomOrder()->first();
-        $content_7  =   Griglia::where('count_number', $this->matrix->matrix->tabella[7]["count"])->where('numero_ref', '7')->inRandomOrder()->first();
-        $content_8  =   Griglia::where('count_number', $this->matrix->matrix->tabella[8]["count"])->where('numero_ref', '8')->inRandomOrder()->first();
-        $content_9  =   Griglia::where('count_number', $this->matrix->matrix->tabella[9]["count"])->where('numero_ref', '9')->inRandomOrder()->first();
+        $content_1  =   Grill::getSpecificGrill($this->matrix->matrix->tabella[1]["count"], '1')->first();
+        $content_2  =   Grill::getSpecificGrill($this->matrix->matrix->tabella[2]["count"], '2')->first();
+        $content_3  =   Grill::getSpecificGrill($this->matrix->matrix->tabella[3]["count"], '3')->first();
+        $content_4  =   Grill::getSpecificGrill($this->matrix->matrix->tabella[4]["count"], '4')->first();
+        $content_5  =   Grill::getSpecificGrill($this->matrix->matrix->tabella[5]["count"], '5')->first();
+        $content_6  =   Grill::getSpecificGrill($this->matrix->matrix->tabella[6]["count"], '6')->first();
+        $content_7  =   Grill::getSpecificGrill($this->matrix->matrix->tabella[7]["count"], '7')->first();
+        $content_8  =   Grill::getSpecificGrill($this->matrix->matrix->tabella[8]["count"], '8')->first();
+        $content_9  =   Grill::getSpecificGrill($this->matrix->matrix->tabella[9]["count"], '9')->first();
         $this->templateProcessor->setValues([
             'count_1'   => $this->matrix->matrix->tabella[1]["count"],
             'count_2'   => $this->matrix->matrix->tabella[2]["count"],
@@ -279,15 +276,15 @@ class Thesis
             'count_7'   => $this->matrix->matrix->tabella[7]["count"],
             'count_8'   => $this->matrix->matrix->tabella[8]["count"],
             'count_9'   => $this->matrix->matrix->tabella[9]["count"],
-            'content_count_1'   => $content_1->descrizione,
-            'content_count_2'   => $content_2->descrizione,
-            'content_count_3'   => $content_3->descrizione,
-            'content_count_4'   => $content_4->descrizione,
-            'content_count_5'   => $content_5->descrizione,
-            'content_count_6'   => $content_6->descrizione,
-            'content_count_7'   => $content_7->descrizione,
-            'content_count_8'   => $content_8->descrizione,
-            'content_count_9'   => $content_9->descrizione
+            'content_count_1'   => $content_1->description,
+            'content_count_2'   => $content_2->description,
+            'content_count_3'   => $content_3->description,
+            'content_count_4'   => $content_4->description,
+            'content_count_5'   => $content_5->description,
+            'content_count_6'   => $content_6->description,
+            'content_count_7'   => $content_7->description,
+            'content_count_8'   => $content_8->description,
+            'content_count_9'   => $content_9->description
         ]);
         $replacements = array();
         $lunghezza_array_percentuali = count($this->matrix->matrix->equivalent_percentage);
@@ -303,23 +300,23 @@ class Thesis
 
         $caselle_equilibrio = $this->matrix->matrix->equivalent_percentage[$meta_key]['caselle'];
         $percentuale_equilibrio = $this->matrix->matrix->equivalent_percentage[$meta_key]['percentuale'];
-        $analisiGriglia = "$caselle_equilibrio in equilibrio con un riempimento in media percentuale di $percentuale_equilibrio %";
+        $analisiGrill = "$caselle_equilibrio in equilibrio con un riempimento in media percentuale di $percentuale_equilibrio %";
         array_push($replacements_analisi, [
-            'analisi_griglia'   => $analisiGriglia
+            'analisi_griglia'   => $analisiGrill
         ]);
         $i = $meta_key + 1;
         while($i < $lunghezza_array_percentuali)
         {
             $caselle = $this->matrix->matrix->equivalent_percentage[$i]['caselle'];
             $percentuale = $this->matrix->matrix->equivalent_percentage[$i]['percentuale'];
-            $analisiGriglia = "$caselle in iper con un riempimento al di sopra della media percentuale di $percentuale %";
+            $analisiGrill = "$caselle in iper con un riempimento al di sopra della media percentuale di $percentuale %";
             array_push($replacements_analisi, [
-                'analisi_griglia'   => $analisiGriglia
+                'analisi_griglia'   => $analisiGrill
             ]);
             //analisi per caselle e contenuto
             $caselle_arr = explode('-', $caselle);
             foreach ($caselle_arr as $casella) {
-                $analisi_contenuto_studio = CasellaGrigliaPercentuale::where('num_ref', $casella)->first();
+                $analisi_contenuto_studio = GrillBox::where('ref_number', $casella)->first();
                 array_push($replacements, [
                     'tipo_condizione'   =>  'Iper',
                     'casella_ref'   =>  $casella,
@@ -336,14 +333,14 @@ class Thesis
             $percentuale = $this->matrix->matrix->equivalent_percentage[$i]['percentuale'];
             if($percentuale != 0)
             {
-                $analisiGriglia = "$caselle in ipo con un riempimento al di sotto della media percentuale $percentuale %";
+                $analisiGrill = "$caselle in ipo con un riempimento al di sotto della media percentuale $percentuale %";
                 array_push($replacements_analisi, [
-                    'analisi_griglia'   => $analisiGriglia
+                    'analisi_griglia'   => $analisiGrill
                 ]);
                 //analisi per caselle e contenuto
                 $caselle_arr = explode('-', $caselle);
                 foreach ($caselle_arr as $casella) {
-                    $analisi_contenuto_studio = CasellaGrigliaPercentuale::where('num_ref', $casella)->first();
+                    $analisi_contenuto_studio = GrillBox::where('ref_number', $casella)->first();
                     array_push($replacements, [
                         'tipo_condizione'   =>  'Ipo',
                         'casella_ref'   =>  $casella,
@@ -373,12 +370,12 @@ class Thesis
         $replacements = array();
         foreach($keys_karmico as $numero_karmico)
         {
-                $content = Lezionekarmica::where('number_value', $numero_karmico)->inRandomOrder()->first();
+                $content = KarmicLesson::where('ref_number', $numero_karmico)->inRandomOrder()->first();
 
                 array_push($replacements,
                     [
                         'numero_karmico' => $numero_karmico,
-                        'content_karmico' => $content->descrizione,
+                        'content_karmico' => $content->description,
                     ]
                 );
         }
@@ -391,9 +388,9 @@ class Thesis
         //Descrizione anno personale
         $birthday = explode("-", $compleanno);
         $anno_personale = $this->anno_personale($birthday);
-        $anno_personale_content = Personalyear::where('anno_ref', $anno_personale)->first();
+        $anno_personale_content = Personalyear::where('ref_year', $anno_personale)->first();
         $this->templateProcessor->setValue("numero_dev_anno", strval($anno_personale));
-        $this->templateProcessor->setValue("content_numero_anno", $anno_personale_content->descrizione);
+        $this->templateProcessor->setValue("content_numero_anno", $anno_personale_content->description);
     }
 
     public function analisi_triadi()
@@ -403,11 +400,11 @@ class Thesis
         foreach ($triadi as $caselle => $value) {
             if($value)
             {
-                $analisi_triadi_contenuto = Triade::where('num_ref', $caselle)->get()->first();
+                $analisi_triadi_contenuto = Triad::where('ref_number', $caselle)->first();
                 array_push($replacements, [
                     'title_triade'  => $analisi_triadi_contenuto->title,
-                    'num_ref_triade'    => $analisi_triadi_contenuto->num_ref,
-                    'triade_content'    => $analisi_triadi_contenuto->descrizione
+                    'num_ref_triade'    => $analisi_triadi_contenuto->ref_number,
+                    'triade_content'    => $analisi_triadi_contenuto->description
                 ]);
             }
         }

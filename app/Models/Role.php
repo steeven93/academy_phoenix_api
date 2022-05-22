@@ -16,7 +16,4 @@ class Role extends Model
 
     const ROLE_USER_EDIT_ONLY_ID = 2;
     const ROLE_USER_EDIT_ONLY_NAME = "EDIT_ONLY";
-
-    const ROLE_USER_CUSTOMER_ID = 3;
-    const ROLE_USER_CUSTOMER_NAME = "CUSTOMER";
 }

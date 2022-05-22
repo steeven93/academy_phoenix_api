@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('expression_numbers', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->integer('number');
             $table->string('content');
             $table->string('content_light')->nullable();
-            $table->string('content_dark')->nullable();
+            $table->string('content_shadow')->nullable();
             $table->string('ipo')->nullable();
             $table->string('iper')->nullable();
             $table->unsignedBigInteger('expression_number_category_id');

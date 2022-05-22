@@ -14,7 +14,7 @@ class ExpressionNumberCategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = ExpressionNumberCategory::all();
     }
 
     /**
@@ -24,7 +24,7 @@ class ExpressionNumberCategoryController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -35,7 +35,7 @@ class ExpressionNumberCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $category = ExpressionNumberCategory::create($request->all());
     }
 
     /**
@@ -69,7 +69,7 @@ class ExpressionNumberCategoryController extends Controller
      */
     public function update(Request $request, ExpressionNumberCategory $expressionNumberCategory)
     {
-        //
+        $expressionNumberCategory->update($request->all());
     }
 
     /**
@@ -80,6 +80,6 @@ class ExpressionNumberCategoryController extends Controller
      */
     public function destroy(ExpressionNumberCategory $expressionNumberCategory)
     {
-        //
+        $expressionNumberCategory->delete();
     }
 }

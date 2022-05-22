@@ -5,8 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class NumerologyContent extends Model
+class GrillBox extends Model
 {
     use HasFactory;
     protected $guard = [];
+
+
 }

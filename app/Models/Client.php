@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Invoice extends Model
+class Client extends Model
 {
     use HasFactory;
     protected $guard = [];
     /**
-     * Get the customer that owns the Invoice
+     * Get the user that owns the Customer
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

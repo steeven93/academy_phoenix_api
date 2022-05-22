@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreign('plans_subscription_id')->references('id')->on('plans_subscriptions');
         });
 
-        Schema::table('customers', function(Blueprint $table){
+        Schema::table('clients', function(Blueprint $table){
             $table->foreign('users_id')->references('id')->on('users');
         });
 
