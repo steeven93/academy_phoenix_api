@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('surname');
             $table->string('email')->nullable();
-            $table->
+            $table->date('birthday');
             $table->unsignedBigInteger('users_id');
             $table->timestamps();
         });

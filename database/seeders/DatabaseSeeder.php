@@ -19,14 +19,10 @@ class DatabaseSeeder extends Seeder
             'name'  =>  'ADMIN',
             'description'   =>  'can do anything'
         ]);
+
         \App\Models\Role::create([
             'id'    => 2,
-            'name'  =>  'EDIT_ONLY',
-            'description'   =>  'can view and edit something'
-        ]);
-        \App\Models\Role::create([
-            'id'    => 3,
-            'name'  =>  'CUSTOMER',
+            'name'  =>  'CLIENT_CUSTOMER',
             'description'   =>  'this is a customer - can do customer something'
         ]);
     }
