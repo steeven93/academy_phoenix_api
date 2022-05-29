@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('surname');
             $table->string('email')->nullable();
             $table->date('birthday');
-            $table->unsignedBigInteger('users_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
     }

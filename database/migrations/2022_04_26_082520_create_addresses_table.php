@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('state');
             $table->string('province');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
     }

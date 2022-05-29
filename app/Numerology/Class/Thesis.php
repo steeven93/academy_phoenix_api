@@ -13,6 +13,7 @@ use App\Models\Personality;
 use App\Models\Personalyear;
 use App\Models\Triad;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Html;
 use PhpOffice\PhpWord\Style\Language;
@@ -73,9 +74,14 @@ class Thesis
         //salvo il mio documento appena creato
         $this->templateProcessor->saveAs(NMRL_DIR."public/storage/files/$fileName");
 
+        $file_stream = file_get_contents(storage_path("public/storage/files/$fileName"));
+
+        Storage::disk('files')->delete($fileName);
+
         return [
-            'url' => "public/storage/files/$fileName",
-            'name_file' => $fileName
+            'file_stream'   => $file_Stream,
+            'file_name' => $fileName,
+
         ];
     }
 

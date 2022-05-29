@@ -18,10 +18,6 @@ return new class extends Migration
             $table->foreign('plans_subscription_id')->references('id')->on('plans_subscriptions');
         });
 
-        Schema::table('clients', function(Blueprint $table){
-            $table->foreign('users_id')->references('id')->on('users');
-        });
-
         Schema::table('invoices', function(Blueprint $table){
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('address_id')->references('id')->on('addresses');
@@ -34,6 +30,14 @@ return new class extends Migration
 
         Schema::table('expression_number_categories', function(Blueprint $table){
             $table->foreign('category_id')->references('id')->on('expression_number_categories');
+        });
+
+        Schema::table('customers', function(Blueprint $table){
+            $table->foreign('user_id')->references('id')->on('users');
+        });
+
+        Schema::table('addresses', function(Blueprint $table){
+            $table->foreign('user_id')->references('id')->on('users');
         });
 
     }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Api\V1\AddressRequest;
 use App\Http\Resources\Api\V1\AddressResource;
 use App\Http\Resources\Api\V1\AddressResources;
@@ -10,16 +10,22 @@ use App\Models\Address;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class AdressController extends Controller
+class AddressController extends BaseController
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function getUserAddresses(User $user)
+    public function get_addresses()
     {
-        return (new AddressResources($user->addresses))->resolve();
+        $user = auth()->user();
+        return $this->sendResponse((new AddressResources($user->addresses))->resolve());
+    }
+
+    public function get_address(Address $address)
+    {
+        return $this->sendResponse($address);
     }
 
     /**
@@ -30,7 +36,8 @@ class AdressController extends Controller
      */
     public function store(AddressRequest $request)
     {
-        $address = Address::create($request->all());
+        $input['user_id']   =   $request->user()->id;
+        $address = Address::create($request->all() + $input);
         return (new AddressResource($address))->resolve();
     }
 
@@ -44,6 +51,7 @@ class AdressController extends Controller
     public function update(AddressRequest $request, Address $address)
     {
         $address->update($request->all());
+        return $this->sendResponse($address, 'Address Updated');
     }
 
     /**
@@ -55,5 +63,6 @@ class AdressController extends Controller
     public function destroy(Address $address)
     {
         $address->delete();
+        return $this->sendResponse('', "Address #{$address->id} deleted");
     }
 }

@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
     use HasFactory;
-    protected $guard = [];
+
+    protected $guarded = [];
+
     /**
      * Get all of the invoices for the User
      *

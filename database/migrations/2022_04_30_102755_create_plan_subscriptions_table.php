@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('plan_subscriptions', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('description');
+            $table->string('price');
             $table->timestamps();
         });
     }

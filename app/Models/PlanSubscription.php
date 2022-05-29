@@ -8,15 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class PlanSubscription extends Model
 {
     use HasFactory;
-    protected $guard = [];
+    protected $guarded = [];
     /**
-     * Get all of the customers for the PlanSubscription
+     * Get all of the users for the PlanSubscription
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function customers(): HasMany
+    public function users(): HasMany
     {
-        return $this->hasMany(Customer::class);
+        return $this->hasMany(User::class);
     }
 
 

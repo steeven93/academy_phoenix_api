@@ -38,6 +38,20 @@ return [
 
         'public' => [
             'driver' => 'local',
+            'root' => storage_path('app/public/files'),
+            'url' => env('APP_URL').'/storage/files',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
+        'tmp' => [
+            'driver' => 'local',
+            'root' => sys_get_temp_dir(),
+            'throw' => false,
+        ],
+
+        'public' => [
+            'driver' => 'local',
             'root' => storage_path('app/public'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',

@@ -75,5 +75,13 @@ class User extends Authenticatable
         return $this->hasMany(Client::class);
     }
 
-
+    /**
+     * Get all of the addresses for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
 }

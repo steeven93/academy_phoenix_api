@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\InvoiceRequest;
+use App\Http\Requests\Api\V1\UserSignUpPlanSubscriptionRequest;
 use App\Http\Resources\Api\V1\InvoiceResource;
 use App\Http\Resources\Api\V1\InvoiceResources;
+use App\Models\PlanSubscription;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -27,11 +29,16 @@ class InvoiceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(InvoiceRequest $request)
+    public function store(User $user, PlanSubscription $plan_subscription, UserSignUpPlanSubscriptionRequest $request)
     {
-        $invoice = Invoice::create($request->all());
+        $input['total_price'] = $plan_subscription->price;
+        $input['payment']   = $request->input('payment');
+        $input['payed']  = true;
+        $input['notes'] = $request->input('notes');
 
-        return (new InvoiceResource($invoice))->resolve();
+        $invoice = Invoice::create($input);
+
+        return true;
     }
 
 
