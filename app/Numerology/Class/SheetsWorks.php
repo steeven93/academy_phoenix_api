@@ -26,13 +26,11 @@ class SheetsWorks
 
 
 
-
         //nome del file finale del foglio di lavoro
         $fileName = $customer->id.'_'.$customer->name.'_'.$customer->lastname.'.xls';
-
+        // dd(storage_path('public/templates/template_file.xlsx'));
         //prendo il template
-        $dir = plugin_dir_path( __DIR__ );
-        $spreadsheet = IOFactory::load($dir.'templates/template_file.xlsx');
+        $spreadsheet = IOFactory::load(Storage::disk('templates')->path('template_file.xlsx'));
         $worksheet = $spreadsheet->getActiveSheet();
 
         //inserisco i dati creando la tabella con il nome
@@ -103,14 +101,14 @@ class SheetsWorks
         $worksheet->getCell("K11")->setValue($matrix->matrix->NL);
 
         //trilogie
-        $worksheet->getCell("B12")->setValue($matrix->matrix->trilogie["horizontale_3_6_9"]);
-        $worksheet->getCell("B14")->setValue($matrix->matrix->trilogie["horizontale_3_6_9"]);
-        $worksheet->getCell("B16")->setValue($matrix->matrix->trilogie["horizontale_1_4_7"]);
-        $worksheet->getCell("C11")->setValue($matrix->matrix->trilogie["verticale_1_2_3"]);
-        $worksheet->getCell("E11")->setValue($matrix->matrix->trilogie["verticale_4_5_6"]);
-        $worksheet->getCell("G11")->setValue($matrix->matrix->trilogie["verticale_7_8_9"]);
-        $worksheet->getCell("B18")->setValue($matrix->matrix->trilogie["diagonale_1_5_9"]);
-        $worksheet->getCell("I18")->setValue($matrix->matrix->trilogie["diagonale_3_5_7"]);
+        // $worksheet->getCell("B12")->setValue($matrix->matrix->trilogie["horizontale_3_6_9"]);
+        // $worksheet->getCell("B14")->setValue($matrix->matrix->trilogie["horizontale_3_6_9"]);
+        // $worksheet->getCell("B16")->setValue($matrix->matrix->trilogie["horizontale_1_4_7"]);
+        // $worksheet->getCell("C11")->setValue($matrix->matrix->trilogie["verticale_1_2_3"]);
+        // $worksheet->getCell("E11")->setValue($matrix->matrix->trilogie["verticale_4_5_6"]);
+        // $worksheet->getCell("G11")->setValue($matrix->matrix->trilogie["verticale_7_8_9"]);
+        // $worksheet->getCell("B18")->setValue($matrix->matrix->trilogie["diagonale_1_5_9"]);
+        // $worksheet->getCell("I18")->setValue($matrix->matrix->trilogie["diagonale_3_5_7"]);
 
         //tabella
         //1
@@ -154,11 +152,12 @@ class SheetsWorks
         $writer = IOFactory::createWriter($spreadsheet, 'Xls');
 
         //salvo il documento
-        $writer->save(NMRL_DIR."public/storage/files/$fileName");
+        $path_file = Storage::disk('files')->path($fileName);
+        $writer->save($path_file);
 
-        $file_stream = file_get_contents(storage_path("public/storage/files/$fileName"));
+        $file_stream = file_get_contents($path_file);
 
-        Storage::disk('files')->delete($fileName);
+        // Storage::disk('files')->delete($fileName);
 
         return [
             'file_stream' => $file_stream,

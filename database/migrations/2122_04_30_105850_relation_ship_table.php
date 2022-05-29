@@ -40,6 +40,10 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
         });
 
+        Schema::table('alfabet_values', function(Blueprint $table){
+            $table->foreign('alfabet_id')->references('id')->on('alfabets');
+        });
+
     }
 
     /**

@@ -35,7 +35,7 @@ class MatrixResource {
          * @var $lastname_string_array type array()
          */
         $name_string_array = str_split(strtoupper($customer->name));
-        $lastname_string_array = str_split(strtoupper($customer->lastname));
+        $lastname_string_array = str_split(strtoupper($customer->surname));
         $empty = [
             'value_f'   =>  "",
             'value_e'   =>  "",
@@ -46,6 +46,7 @@ class MatrixResource {
             "vowel"     =>  [],
             "unvowel"   =>  []
         ];
+
         // mi riempe le variabili
         array_push($table_of_name_values["vowel"], $this->set_value_of_name($name_string_array, true), $empty, $this->set_value_of_name($lastname_string_array, true));
         array_push($table_of_name_values["unvowel"], $this->set_value_of_name($name_string_array), $empty, $this->set_value_of_name($lastname_string_array));
@@ -308,13 +309,13 @@ class MatrixResource {
         foreach ($name as $character) {
 
             /** assegno il risultato della richiesta ad @var $alfabetValue che sarà un array */
-            $alfabetValue = AlfabetValue::where('char', $character)->where('alfabet_id', '1')->get()->first();
-            $informations = $alfabetValue;
+            $informations = AlfabetValue::getCharacterValue($character)->first();
+
                 //mi chiedo se c'è uno spazio perché è possibile che una persona abbia due nomi o cognomi
-                if($character != " ")
+                if(($character != " ") & ($character != ""))
                 {
                     //guardo se è una vocale oppure no
-                    if ($this->is_vowel($informations->char) == $isvowel)
+                    if ($this->is_vowel( $informations->char ) == $isvowel)
                     {
                         //imposto i miei risultati
                         array_push($result, [
