@@ -8,8 +8,9 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function getInfoProfile(User $user)
+    public function getInfoProfile()
     {
+        $user = request()->user();
         return (new UserResource($user))->resolve();
     }
 

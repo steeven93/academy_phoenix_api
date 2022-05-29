@@ -43,10 +43,17 @@ Route::middleware(['auth:sanctum'])->prefix('V1')->group(function () {
 
     Route::post('customer/create_thesis/{customer}', [CustomerController::class, 'create_thesis']);
     Route::post('customer/create_matrix/{customer}', [CustomerController::class, 'create_matrix']);
+
     /**
      * Plan Subscription
      */
 
+    Route::post('user/signup/plan_subscription', [UserController::class, 'signUpPlanSubscription']);
+
+    /**
+     * User Profile
+     */
+    Route::post('my_profile', [UserController::class, 'getInfoProfile']);
 
      /**
       * Address
