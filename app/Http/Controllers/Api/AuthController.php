@@ -16,11 +16,10 @@ class AuthController extends BaseController
     {
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $authUser = Auth::user();
-            // $success['token'] =  $authUser->createToken('MyAuthApp')->plainTextToken;
+            $success['token'] =  $authUser->createToken('MyAuthApp')->plainTextToken;
             $success['name'] =  $authUser->name;
             $success['email']   =   $authUser->email;
             $success['role_id'] =  $authUser->role_id;
-
             return $this->sendResponse($success, 'User signed in');
         }
         else{
@@ -45,8 +44,11 @@ class AuthController extends BaseController
         $input['role_id'] = Role::ROLE_USER_CLIENT_CUSTOMER_ID;
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
+
         $success['token'] =  $user->createToken('PhoenixAcademy')->plainTextToken;
         $success['name'] =  $user->name;
+        $success['email']   =   $user->email;
+        $success['role_id'] =  $user->role_id;
 
         return $this->sendResponse($success, 'User created successfully.');
     }
