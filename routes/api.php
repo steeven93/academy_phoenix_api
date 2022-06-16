@@ -74,3 +74,7 @@ Route::middleware(['auth:sanctum'])->prefix('V1')->group(function () {
      */
     Route::get('get_settings', [SettingController::class, 'get_settings']);
 });
+
+Route::middleware(['auth:sanctum'])->prefix('V2')->group(function () {
+
+});
