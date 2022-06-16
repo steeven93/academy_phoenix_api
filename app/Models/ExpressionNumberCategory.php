@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ExpressionNumberCategory extends Model
 {
     use HasFactory;
-    protected $guard = [];
+    protected $guarded = [];
 
     const EXPRESSION_NUMBER_CATEGORY_DEFAULT = 1;
     const EXPRESSION_NUMBER_CATEGORY_EXPRESSION = 2;

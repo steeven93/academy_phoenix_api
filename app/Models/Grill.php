@@ -8,7 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Grill extends Model
 {
     use HasFactory;
-    protected $guard = [];
+    protected $guarded = [];
+
+    /**
+     * Scopes
+     */
 
     public function scopeGetSpecificGrill($query, $count_number, $ref_number)
     {

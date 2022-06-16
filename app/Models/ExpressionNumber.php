@@ -9,7 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 class ExpressionNumber extends Model
 {
     use HasFactory;
-    protected $guard = [];
+    protected $guarded = [];
+
+    /**
+     * Scopes
+     */
+
 
     public function scopeGetExpressionNumberDefault($query, $expression_number)
     {

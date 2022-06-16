@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -31,7 +34,8 @@ class User extends Authenticatable
         'plans_subscription_id',
         'profile_photo_path'
     ];
-    protected $guard  = [];
+
+    // protected $guarded  = [];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -64,24 +68,45 @@ class User extends Authenticatable
     ];
 
 
-
-    /**
-     * Get all of the clients for the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function clients(): HasMany
-    {
-        return $this->hasMany(Client::class);
-    }
-
     /**
      * Get all of the addresses for the User
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function addresses()
+    public function addresses(): HasMany
     {
         return $this->hasMany(Address::class);
     }
+
+    /**
+     * Get the role associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function role(): HasOne
+    {
+        return $this->hasOne(Role::class);
+    }
+
+    /**
+     * Get the plan_subscription that owns the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function plan_subscription(): BelongsTo
+    {
+        return $this->belongsTo(PlanSubscription::class);
+    }
+
+    /**
+     * Get all of the invoices for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+
 }

@@ -96,4 +96,27 @@ class CustomerController extends BaseController
             'file_name'     =>  $file_name
         ]);
     }
+
+    public function create_note(Request $request)
+    {
+        $note = Note::create([
+            'title' =>  $request->title,
+            'content'   =>  $request->content
+        ]);
+        return $this->sendResponse($note, 'note was created');
+    }
+
+    public function edit_note(Request $request, Note $note)
+    {
+        $note->update($request->all());
+
+        return $this->sendResponse($note, 'note was updated');
+    }
+
+    public function delete_note(Request $request, Note $note)
+    {
+        $note->delete();
+
+        return $this->sendResponse(null, "note {$note->title} was deleted");
+    }
 }

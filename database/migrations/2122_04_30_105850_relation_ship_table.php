@@ -44,6 +44,10 @@ return new class extends Migration
             $table->foreign('alfabet_id')->references('id')->on('alfabets');
         });
 
+        Schema::table('notes', function(Blueprint $table){
+            $table->foreign('customer_id')->references('id')->on('customers');
+        });
+
     }
 
     /**

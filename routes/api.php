@@ -41,13 +41,18 @@ Route::middleware(['auth:sanctum'])->prefix('V1')->group(function () {
     Route::get('customer/', [CustomerController::class, 'get_customers']);
     Route::get('customer/{customer}', [CustomerController::class, 'get_customer']);
 
+    //notes
+    Route::post('customer/{customer}/note',[CustomerController::class, 'create_note']);
+    Route::put('customer/{customer}/note/{note}',[CustomerController::class, 'edit_note']);
+    Route::delete('customer/{customer}/note/{note}',[CustomerController::class, 'delete_note']);
+
+    //thesis
     Route::post('customer/create_thesis/{customer}', [CustomerController::class, 'create_thesis']);
     Route::post('customer/create_matrix/{customer}', [CustomerController::class, 'create_matrix']);
 
     /**
      * Plan Subscription
      */
-
     Route::post('user/signup/plan_subscription', [UserController::class, 'signUpPlanSubscription']);
 
     /**
