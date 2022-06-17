@@ -7,6 +7,7 @@ use App\Http\Requests\Api\V1\CustomerRequest;
 use App\Http\Resources\Api\V1\CustomerResource;
 use App\Http\Resources\Api\V1\CustomerResources;
 use App\Models\Customer;
+use App\Models\Note;
 use App\Models\User;
 use App\Numerology\Class\SheetsWorks;
 use App\Numerology\Class\Thesis;
@@ -24,7 +25,8 @@ class CustomerController extends BaseController
 
     public function get_customer(Customer $customer)
     {
-        return $this->sendResponse($customer);
+
+        return $this->sendResponse((new CustomerResource($customer))->resolve());
     }
 
     /**
@@ -101,7 +103,8 @@ class CustomerController extends BaseController
     {
         $note = Note::create([
             'title' =>  $request->title,
-            'content'   =>  $request->content
+            'content'   =>  $request->content,
+            'customer_id'   =>  $request->customer_id
         ]);
         return $this->sendResponse($note, 'note was created');
     }
