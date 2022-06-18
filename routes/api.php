@@ -42,9 +42,9 @@ Route::middleware(['auth:sanctum'])->prefix('V1')->group(function () {
     Route::get('customer/{customer}', [CustomerController::class, 'get_customer']);
 
     //notes
-    Route::post('customer/{customer}/note',[CustomerController::class, 'create_note']);
-    Route::put('customer/{customer}/note/{note}',[CustomerController::class, 'edit_note']);
-    Route::delete('customer/{customer}/note/{note}',[CustomerController::class, 'delete_note']);
+    Route::post('note',[CustomerController::class, 'create_note']);
+    Route::delete('note/{note}',[CustomerController::class, 'delete_note']);
+    Route::put('note/{note}',[CustomerController::class, 'edit_note']);
 
     //thesis
     Route::post('customer/create_thesis/{customer}', [CustomerController::class, 'create_thesis']);
