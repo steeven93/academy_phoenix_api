@@ -36,7 +36,7 @@ Route::middleware(['auth:sanctum'])->prefix('V1')->group(function () {
      * Customers
      */
     Route::post('customer/create', [CustomerController::class, 'store']);
-    Route::delete('customer/{customer}/delete', [CustomerController::class, 'destroy']);
+    Route::delete('customer/{customer}', [CustomerController::class, 'destroy']);
     Route::put('customer/{customer}', [CustomerController::class, 'update']);
     Route::get('customer/', [CustomerController::class, 'get_customers']);
     Route::get('customer/{customer}', [CustomerController::class, 'get_customer']);

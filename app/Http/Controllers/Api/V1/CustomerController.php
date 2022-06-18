@@ -69,8 +69,13 @@ class CustomerController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Customer $customer)
+    public function destroy(Request $request, Customer $customer)
     {
+        foreach($customer->notes as $note)
+        {
+            $note->delete();
+        }
+
         $customer->delete();
 
         return $this->sendResponse('', "Customer {$customer->name} is deleted");
