@@ -16,8 +16,13 @@ return new class extends Migration
         Schema::create('plan_subscriptions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug');
             $table->string('description');
-            $table->string('price');
+            $table->bigInteger('price');
+            $table->string('stripe_name');
+            $table->string('stripe_id');
+            $table->string('abbreviation');
+            $table->string('guid');
             $table->timestamps();
         });
     }

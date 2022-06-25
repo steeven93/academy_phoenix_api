@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests\Api\V1;
 
-use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserSignUpPlanSubscriptionRequest extends FormRequest
+class LoggedUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class UserSignUpPlanSubscriptionRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('subscribe', User::class);
+        return false;
     }
 
     /**
@@ -25,7 +24,7 @@ class UserSignUpPlanSubscriptionRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'token' =>  'required'
         ];
     }
 }

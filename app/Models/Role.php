@@ -16,4 +16,6 @@ class Role extends Model
 
     const ROLE_USER_CLIENT_CUSTOMER_ID = 2;
     const ROLE_USER_CLIENT_CUSTOMER_NAME = "CLIENT_CUSTOMER";
+
+
 }

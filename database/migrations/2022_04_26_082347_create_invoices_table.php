@@ -21,7 +21,7 @@ return new class extends Migration
             $table->boolean('payed')->default(false);
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('address_id');
-            $table->unsignedBigInteger('plans_subscription_id');
+            $table->unsignedBigInteger('plan_subscription_id');
             $table->timestamps();
         });
     }

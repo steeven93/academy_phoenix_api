@@ -18,4 +18,20 @@ class UserPolicy
     {
         //
     }
+
+    public function before(User $user)
+    {
+        if($user->isAdmin())
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function subscribe()
+    {
+
+        return !$user->isAdmin() && is_null($user->plan_subscription_id);
+    }
 }

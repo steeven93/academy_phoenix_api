@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\PlanSubscription;
+use App\Models\User;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Cashier\Cashier;
 
 class AppServiceProvider extends ServiceProvider
 {

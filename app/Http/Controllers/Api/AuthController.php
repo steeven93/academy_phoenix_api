@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseController;
+use App\Models\PlanSubscription;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -43,6 +44,7 @@ class AuthController extends BaseController
         $input = $request->all();
         $input['role_id'] = Role::ROLE_USER_CLIENT_CUSTOMER_ID;
         $input['password'] = Hash::make($input['password']);
+        $input['plan_subscription_id']  =   PlanSubscription::PLAN_SUBSCRIPTION_FREE_ID;
         $user = User::create($input);
 
         $success['token'] =  $user->createToken('PhoenixAcademy')->plainTextToken;
@@ -56,8 +58,9 @@ class AuthController extends BaseController
     public function logout(Request $request)
     {
         $user = $request->user();
-        $user->tokens()->delete();
-        Auth::guard('web')->logout();
+        $user->tokens->each(function($token){
+            $token->delete();
+        });
 
         return $this->sendResponse('', 'Logout successfully');
     }

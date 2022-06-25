@@ -25,10 +25,12 @@ class UserResource extends JsonResource
             'name'  =>  $user->name,
             'surname'  =>  $user->surname,
             'email' =>  $user->email,
+            'profile_photo_url' =>  $user->profile_photo_url,
+            'role'  =>  $user->role,
             'invoices'  =>  $user->invoices,
             'plan_subscription' =>  $user->plan_subscription,
             'addresses' =>  $user->addresses
         ];
-
+        return $ret;
     }
 }

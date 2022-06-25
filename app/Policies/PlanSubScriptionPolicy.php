@@ -18,4 +18,9 @@ class PlanSubScriptionPolicy
     {
         //
     }
+
+    public function subscribe(User $user)
+    {
+        return !$user->isAdmin();
+    }
 }
