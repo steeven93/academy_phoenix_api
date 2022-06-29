@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('ref_number');
             $table->string('iper');
             $table->string('ipo');
+            $table->string('equilibrium');
             $table->timestamps();
         });
     }

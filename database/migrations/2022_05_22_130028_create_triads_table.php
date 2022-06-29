@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('triads', function (Blueprint $table) {
             $table->id();
-            $table->integer('ref_number');
+            $table->string('ref_number');
             $table->string('title');
             $table->string('description');
             $table->timestamps();

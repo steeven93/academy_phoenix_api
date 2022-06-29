@@ -32,6 +32,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
 
+    Route::get('logged_user', [UserController::class, 'getLoggedUser']);
+
     /**
      * Customers
      */
@@ -60,6 +62,10 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
      */
     Route::get('my_profile', [UserController::class, 'getInfoProfile']);
 
+    //signup
+    Route::post('users/{user}/create_address', [UserController::class, 'create_address']);
+    Route::post('users/{user}/create_invoice', [UserController::class, 'create_invoice']);
+
      /**
       * Address
       */
@@ -79,9 +85,6 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
      * Stripe
      */
 
-    Route::get('/billing-portal', function (Request $request) {
-        return $request->user()->redirectToBillingPortal();
-    });
 });
 
 Route::middleware(['auth:sanctum'])->prefix('v2')->group(function () {

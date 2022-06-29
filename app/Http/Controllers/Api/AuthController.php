@@ -48,6 +48,7 @@ class AuthController extends BaseController
         $user = User::create($input);
 
         $success['token'] =  $user->createToken('PhoenixAcademy')->plainTextToken;
+        $success['user_id'] =   $user->id;
         $success['name'] =  $user->name;
         $success['email']   =   $user->email;
         $success['role_id'] =  $user->role_id;
