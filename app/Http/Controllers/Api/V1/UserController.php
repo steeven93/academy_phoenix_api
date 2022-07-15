@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Api\V1\LoggedUserRequest;
+use App\Http\Requests\Api\V1\UserSignUpPlanSubscriptionRequest;
 use App\Http\Resources\Api\V1\UserResource;
 use App\Models\Address;
 use App\Models\Invoice;
 use App\Models\PlanSubscription;
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class UserController extends BaseController
@@ -25,10 +27,11 @@ class UserController extends BaseController
         $user = $request->user();
         $plan_subscription = PlanSubscription::find($request->input('plan_subscription_id'));
 
-        (new InvoiceController())->store($user, $plan_subscription, $request);
+        // (new InvoiceController())->store($user, $plan_subscription, $request);
 
         $user->plans_subscription_id = $request->input('plan_subscription_id');
-
+        $user->start_subscription = Carbon::now();
+        $user->end_subscription = Carbon::now()->add(30, 'day');
         $user->save();
         return $this->sendResponse([],'User Sign up Successfully');
     }
@@ -49,8 +52,9 @@ class UserController extends BaseController
         return $this->sendResponse($user);
     }
 
-    public function create_address(Request $request, User $user)
+    public function create_address(Request $request)
     {
+        $user = request()->user();
         $address = Address::create([
             'address'   =>  $request->address,
             'cap'   =>  $request->cap,
@@ -63,16 +67,17 @@ class UserController extends BaseController
         return $this->sendResponse($address);
     }
 
-    public function create_invoice(Request $request, User $user)
+    public function create_invoice(Request $request)
     {
+        $user = request()->user();
         $invoice = Invoice::create([
             'notes' =>  $request->notes,
             'total_price'   => $request->total_price,
             'payment'   =>  'Stripe',
             'payed'     =>  $request->payed,
             'user_id'   =>  $user->id,
-            'address_id'    =>  $request->address_id,
-            'plan_subscription_id'  =>  $request->plan_id
+            'address_id'    =>  $user->addresses()->first()->id,
+            'plan_subscription_id'  =>  1
         ]);
 
         return $this->sendResponse($invoice);

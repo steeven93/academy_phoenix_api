@@ -61,6 +61,7 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
      * User Profile
      */
     Route::get('my_profile', [UserController::class, 'getInfoProfile']);
+    Route::post('create_invoice', [UserController::class, 'create_invoice']);
 
     //signup
     Route::post('users/{user}/create_address', [UserController::class, 'create_address']);
