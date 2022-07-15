@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('expression_numbers', function (Blueprint $table) {
             $table->id();
             $table->integer('number');
-            $table->string('content');
-            $table->string('content_light')->nullable();
-            $table->string('content_shadow')->nullable();
-            $table->string('ipo')->nullable();
-            $table->string('iper')->nullable();
+            $table->longText('content');
+            $table->longText('content_light')->nullable();
+            $table->longText('content_shadow')->nullable();
+            $table->longText('ipo')->nullable();
+            $table->longText('iper')->nullable();
             $table->unsignedBigInteger('expression_number_category_id');
             $table->timestamps();
         });

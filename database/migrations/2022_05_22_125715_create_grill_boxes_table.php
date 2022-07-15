@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('grill_boxes', function (Blueprint $table) {
             $table->id();
             $table->integer('ref_number');
-            $table->string('iper');
-            $table->string('ipo');
-            $table->string('equilibrium');
+            $table->longText('iper');
+            $table->longText('ipo');
+            $table->longText('equilibrium');
             $table->timestamps();
         });
     }

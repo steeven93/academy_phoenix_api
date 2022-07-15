@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('personal_years', function (Blueprint $table) {
             $table->id();
             $table->integer('ref_year');
-            $table->string('descrption');
+            $table->longText('descrption');
             $table->timestamps();
         });
     }

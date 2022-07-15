@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ExpressionNumber;
 use App\Models\ExpressionNumberCategory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -107,35 +108,35 @@ class ExpressionNumberTableSeeder extends Seeder
             'expression_number_category_id'    =>  ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_EXPRESSION
         ]);
 
-        ExpressionNumber::create([
-            'number'    =>  8,
-            'content'    =>  "",
-            'content_light'    =>  "",
-            'content_shadow'    =>  "",
-            'ipo'    =>  "",
-            'iper'    =>  "",
-            'expression_number_category_id'    =>  ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_EXPRESSION
-        ]);
+        // ExpressionNumber::create([
+        //     'number'    =>  8,
+        //     'content'    =>  "",
+        //     'content_light'    =>  "",
+        //     'content_shadow'    =>  "",
+        //     'ipo'    =>  "",
+        //     'iper'    =>  "",
+        //     'expression_number_category_id'    =>  ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_EXPRESSION
+        // ]);
 
-        ExpressionNumber::create([
-            'number'    =>  9,
-            'content'    =>  "",
-            'content_light'    =>  "",
-            'content_shadow'    =>  "",
-            'ipo'    =>  "",
-            'iper'    =>  "",
-            'expression_number_category_id'    =>  ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_EXPRESSION
-        ]);
+        // ExpressionNumber::create([
+        //     'number'    =>  9,
+        //     'content'    =>  "",
+        //     'content_light'    =>  "",
+        //     'content_shadow'    =>  "",
+        //     'ipo'    =>  "",
+        //     'iper'    =>  "",
+        //     'expression_number_category_id'    =>  ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_EXPRESSION
+        // ]);
 
-        ExpressionNumber::create([
-            'number'    =>  "",
-            'content'    =>  "",
-            'content_light'    =>  "",
-            'content_shadow'    =>  "",
-            'ipo'    =>  "",
-            'iper'    =>  "",
-            'expression_number_category_id'    =>  ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_EXPRESSION
-        ]);
+        // ExpressionNumber::create([
+        //     'number'    =>  "",
+        //     'content'    =>  "",
+        //     'content_light'    =>  "",
+        //     'content_shadow'    =>  "",
+        //     'ipo'    =>  "",
+        //     'iper'    =>  "",
+        //     'expression_number_category_id'    =>  ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_EXPRESSION
+        // ]);
 
     }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('karmic_lessons', function (Blueprint $table) {
             $table->id();
             $table->integer('ref_number');
-            $table->string('description');
+            $table->longText('description');
             $table->timestamps();
         });
     }
