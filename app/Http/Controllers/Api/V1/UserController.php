@@ -30,14 +30,10 @@ class UserController extends BaseController
             'email' =>  $user->email,
         ];
         $plan_subscription = PlanSubscription::find($request->plan_subscription_id);
-        $user->newSubscription($plan_subscription->name, $plan_subscription->price)
+        $user->newSubscription($plan_subscription->name, $plan_subscription->stripe_id)
         ->create($request->payment_method_id, $options);
 
         // (new InvoiceController())->store($user, $plan_subscription, $request);
-
-        $user->plans_subscription_id = $request->plan_subscription_id;
-        $user->start_subscription = Carbon::now();
-        $user->end_subscription = Carbon::now()->add(30, 'day');
         $user->save();
         return $this->sendResponse([],'User Sign up Successfully');
     }
