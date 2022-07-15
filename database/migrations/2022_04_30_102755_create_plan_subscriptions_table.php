@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('description');
             $table->bigInteger('price');
             $table->string('stripe_name');
+            $table->string('stripe_product');
+            $table->string('stripe_price');
             $table->string('stripe_id');
             $table->string('abbreviation');
             $table->string('guid');
