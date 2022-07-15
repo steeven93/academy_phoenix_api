@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Api\V1\LoggedUserRequest;
 use App\Http\Requests\Api\V1\UserSignUpPlanSubscriptionRequest;
+use App\Http\Requests\DeletePaymentRequest;
 use App\Http\Resources\Api\V1\UserResource;
 use App\Models\Address;
 use App\Models\Invoice;
@@ -22,16 +23,53 @@ class UserController extends BaseController
         return $this->sendResponse((new UserResource($user))->resolve());
     }
 
+    public function getIntentPaymentMethod()
+    {
+        $user = request()->user();
+        $client_secret = $user->createSetupIntent()->client_secret;
+        return $this->sendResponse(compact('client_secret'));
+    }
+    public function getPaymentMethods()
+    {
+        $user = request()->user();
+        $paymentMethods = $user->paymentMethods();
+        return $this->sendResponse($paymentMethods);
+    }
+
+    public function setPaymentMethod(Request $request)
+    {
+        $user = request()->user();
+        $user->addPaymentMethod($request->payment_method);
+    }
+
+    public function deletePaymentMethod(DeletePaymentRequest $request)
+    {
+        $user = request()->user();
+        if($request->remove_all_payments)
+        {
+            $user->deletePaymentMethods();
+            return $this->sendResponse([], 'All payments removed succesfully');
+        }
+        $user->deletePaymentMethod($request->type_method);
+        return $this->sendResponse([], 'the request payment was deleted successfully');
+    }
+
     public function signUpPlanSubscription(UserSignUpPlanSubscriptionRequest $request)
     {
         $user = $request->user();
-        $stripeCustomer = $user->createAsStripeCustomer();
         $options = [
             'email' =>  $user->email,
         ];
         $plan_subscription = PlanSubscription::find($request->plan_subscription_id);
-        $user->newSubscription($plan_subscription->name, $plan_subscription->stripe_id)
-        ->create($request->payment_method_id, $options);
+        $SubscriptionQuery = $user->newSubscription($plan_subscription->name, $plan_subscription->stripe_id);
+        if($request->has('payment_method_id'))
+        {
+            $SubscriptionQuery->create($request->payment_method_id, $options);
+        }
+        else
+        {
+            $SubscriptionQuery->add();
+        }
 
         // (new InvoiceController())->store($user, $plan_subscription, $request);
         $user->save();

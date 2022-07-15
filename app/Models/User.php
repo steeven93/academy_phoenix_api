@@ -95,9 +95,9 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function plan_subscription(): BelongsTo
+    public function subscriptions(): HasMany
     {
-        return $this->belongsTo(PlanSubscription::class);
+        return $this->hasMany(Subscription::class);
     }
 
     /**

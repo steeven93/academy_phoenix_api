@@ -46,6 +46,7 @@ class AuthController extends BaseController
         $input['password'] = Hash::make($input['password']);
         $input['plan_subscription_id']  =   PlanSubscription::PLAN_SUBSCRIPTION_FREE_ID;
         $user = User::create($input);
+        $user->createAsStripeCustomer();
 
         $success['token'] =  $user->createToken('PhoenixAcademy')->plainTextToken;
         $success['user_id'] =   $user->id;
