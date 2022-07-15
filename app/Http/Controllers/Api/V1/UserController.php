@@ -25,11 +25,17 @@ class UserController extends BaseController
     public function signUpPlanSubscription(UserSignUpPlanSubscriptionRequest $request)
     {
         $user = $request->user();
-        $plan_subscription = PlanSubscription::find($request->input('plan_subscription_id'));
+        $stripeCustomer = $user->createAsStripeCustomer();
+        $options = [
+            'email' =>  $user->email,
+        ];
+        $plan_subscription = PlanSubscription::find($request->plan_subscription_id);
+        $user->newSubscription($plan_subscription->name, $plan_subscription->price)
+        ->create($request->payment_method_id, $options);
 
         // (new InvoiceController())->store($user, $plan_subscription, $request);
 
-        $user->plans_subscription_id = $request->input('plan_subscription_id');
+        $user->plans_subscription_id = $request->plan_subscription_id;
         $user->start_subscription = Carbon::now();
         $user->end_subscription = Carbon::now()->add(30, 'day');
         $user->save();
@@ -74,10 +80,10 @@ class UserController extends BaseController
             'notes' =>  $request->notes,
             'total_price'   => $request->total_price,
             'payment'   =>  'Stripe',
-            'payed'     =>  $request->payed,
+            'payed'     =>  false,
             'user_id'   =>  $user->id,
             'address_id'    =>  $user->addresses()->first()->id,
-            'plan_subscription_id'  =>  1
+            'plan_subscription_id'  =>  $request->plan_subscription_id
         ]);
 
         return $this->sendResponse($invoice);

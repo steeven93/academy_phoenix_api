@@ -25,7 +25,8 @@ class UserSignUpPlanSubscriptionRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'plan_subscription_id'  =>  ['required'],
+            'payment_method_id'     =>  ['required']
         ];
     }
 }
