@@ -6,7 +6,7 @@ use App\Models\KarmicLesson;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class karmicLessonTableSeeder extends Seeder
+class KarmicLessonTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
