@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Api\V1\LoggedUserRequest;
 use App\Http\Requests\Api\V1\UserSignUpPlanSubscriptionRequest;
 use App\Http\Requests\DeletePaymentRequest;
+use App\Http\Requests\SetPaymentMethodRequest;
 use App\Http\Resources\Api\V1\UserResource;
 use App\Models\Address;
 use App\Models\Invoice;
@@ -27,7 +28,8 @@ class UserController extends BaseController
     {
         $user = request()->user();
         $client_secret = $user->createSetupIntent()->client_secret;
-        return $this->sendResponse(compact('client_secret'));
+        $stripe_customer_id = $user->createOrGetStripeCustomer()->id;
+        return $this->sendResponse(compact('client_secret', 'stripe_customer_id'));
     }
     public function getPaymentMethods()
     {
@@ -36,10 +38,19 @@ class UserController extends BaseController
         return $this->sendResponse($paymentMethods);
     }
 
-    public function setPaymentMethod(Request $request)
+    public function setPaymentMethod(SetPaymentMethodRequest $request)
+    {
+        // $user = request()->user();
+        $user = User::find(2);
+
+        $done = $user->addPaymentMethod($request->payment_method_id);
+        return $this->sendResponse([], 'Payment Added to Customer Successfully');
+    }
+
+    public function addPaymentMethod(Request $request)
     {
         $user = request()->user();
-        $user->addPaymentMethod($request->payment_method);
+        $user->addPaymentMethod($request->paymentMethod);
     }
 
     public function deletePaymentMethod(DeletePaymentRequest $request)

@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\V1;
+namespace App\Http\Requests;
 
-use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserSignUpPlanSubscriptionRequest extends FormRequest
+class SetPaymentMethodRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,6 @@ class UserSignUpPlanSubscriptionRequest extends FormRequest
      */
     public function authorize()
     {
-        // return $this->user()->can('subscribe', User::class);
         return true;
     }
 
@@ -26,8 +24,11 @@ class UserSignUpPlanSubscriptionRequest extends FormRequest
     public function rules()
     {
         return [
-            'plan_subscription_id'  =>  ['required'],
-            'payment_method_id'     =>  ['nullable']
+            'payment_method_id'    =>  [
+                'required',
+                'string',
+                'max:255'
+            ]
         ];
     }
 }

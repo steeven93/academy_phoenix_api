@@ -28,8 +28,9 @@ class UserResource extends JsonResource
             'profile_photo_url' =>  $user->profile_photo_url,
             'role'  =>  $user->role,
             'invoices'  =>  $user->invoices,
-            'plan_subscription' =>  $user->plan_subscription,
-            'addresses' =>  $user->addresses
+            'subscriptions' =>  $user->subscriptions,
+            'addresses' =>  $user->addresses,
+            'has_subscribed'    =>  $user->has_subscription
         ];
         return $ret;
     }

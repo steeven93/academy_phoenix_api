@@ -21,6 +21,12 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', [AuthController::class, 'signin']);
 Route::post('register', [AuthController::class, 'signup']);
 
+Route::prefix('v1')->group(function () {
+    Route::get('plan_subscription', [UserController::class, 'getPlanSubScription']);
+
+    //to remove only test purpose
+    Route::post('payment_method/set',  [UserController::class, 'setPaymentMethod']);
+});
 
 Route::group(['middleware'  => ['auth:sanctum']],function () {
     Route::post('logout', [AuthController::class, 'logout']);
@@ -56,7 +62,7 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
      * Plan Subscription
      */
     Route::post('user/signup/plan_subscription', [UserController::class, 'signUpPlanSubscription']);
-    Route::get('plan_subscription', [UserController::class, 'getPlanSubScription']);
+
 
     /**
      * User Profile
@@ -88,7 +94,7 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
      */
     Route::get('payment_method/', [UserController::class, 'getPaymentMethods'] );
     Route::get('payment_method/intent', [UserController::class, 'getIntentPaymentMethod'] );
-    Route::post('payment_method/set',  [UserController::class, 'setPaymentMethod']);
+    // Route::post('payment_method/set',  [UserController::class, 'setPaymentMethod']);
     Route::delete('payment_method/delete',  [UserController::class, 'deletePaymentMethod']);
 
 });

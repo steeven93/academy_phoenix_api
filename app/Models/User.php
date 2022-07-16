@@ -67,6 +67,7 @@ class User extends Authenticatable
      */
     protected $appends = [
         'profile_photo_url',
+        'has_subscription'
     ];
 
 
@@ -119,20 +120,11 @@ class User extends Authenticatable
         return $this->role->id === Role::ROLE_USER_ADMINISTRATION_ID;
      }
 
-     public function has_subscrption()
+     public function getHasSubScriptionAttribute()
      {
-        switch ($this->plan_subscription_id) {
-            case PlanSubscription::PLAN_SUBSCRIPTION_FREE_ID:
-                // return $user->subscribed(PlanSubscription::PLAN_SUBSCRIPTION_FREE_TAG);
-                return false;
-                break;
-
-            case PlanSubscription::PLAN_SUBSCRIPTION_BASE_ID:
-                return $user->subscribed(PlanSubscription::PLAN_SUBSCRIPTION_BASE_TAG);
-                break;
-        }
-
-        return false;
+        return $this->subscriptions->map(function($subscription){
+            return !$subscription->ended();
+        })->max() ?? false;
      }
 
 }
