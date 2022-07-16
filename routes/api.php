@@ -56,6 +56,7 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
      * Plan Subscription
      */
     Route::post('user/signup/plan_subscription', [UserController::class, 'signUpPlanSubscription']);
+    Route::get('plan_subscription', [UserController::class, 'getPlanSubScription']);
 
     /**
      * User Profile

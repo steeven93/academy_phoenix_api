@@ -76,6 +76,12 @@ class UserController extends BaseController
         return $this->sendResponse([],'User Sign up Successfully');
     }
 
+    public function getPlanSubScription()
+    {
+        $plans = PlanSubScription::all();
+        return $this->sendResponse($plans);
+    }
+
     public function change_password(ChangePasswordRequest $request)
     {
         $user = request()->user();
