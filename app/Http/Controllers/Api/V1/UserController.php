@@ -21,6 +21,7 @@ class UserController extends BaseController
     public function getInfoProfile()
     {
         $user = request()->user();
+        $user->createOrGetStripeCustomer();
         return $this->sendResponse((new UserResource($user))->resolve());
     }
 
@@ -34,15 +35,15 @@ class UserController extends BaseController
     public function getPaymentMethods()
     {
         $user = request()->user();
+        $user->createOrGetStripeCustomer();
         $paymentMethods = $user->paymentMethods();
         return $this->sendResponse($paymentMethods);
     }
 
     public function setPaymentMethod(SetPaymentMethodRequest $request)
     {
-        // $user = request()->user();
-        $user = User::find(2);
-
+        $user = request()->user();
+        $user->createOrGetStripeCustomer();
         $done = $user->addPaymentMethod($request->payment_method_id);
         return $this->sendResponse([], 'Payment Added to Customer Successfully');
     }
@@ -50,12 +51,14 @@ class UserController extends BaseController
     public function addPaymentMethod(Request $request)
     {
         $user = request()->user();
+        $user->createOrGetStripeCustomer();
         $user->addPaymentMethod($request->paymentMethod);
     }
 
     public function deletePaymentMethod(DeletePaymentRequest $request)
     {
         $user = request()->user();
+        $user->createOrGetStripeCustomer();
         if($request->remove_all_payments)
         {
             $user->deletePaymentMethods();
@@ -68,6 +71,7 @@ class UserController extends BaseController
     public function signUpPlanSubscription(UserSignUpPlanSubscriptionRequest $request)
     {
         $user = $request->user();
+        $user->createOrGetStripeCustomer();
         $options = [
             'email' =>  $user->email,
         ];

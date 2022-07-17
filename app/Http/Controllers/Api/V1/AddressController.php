@@ -36,8 +36,9 @@ class AddressController extends BaseController
      */
     public function store(AddressRequest $request)
     {
+        $input = $request->all();
         $input['user_id']   =   $request->user()->id;
-        $address = Address::create($request->all() + $input);
+        $address = Address::create($input);
         return (new AddressResource($address))->resolve();
     }
 
