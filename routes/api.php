@@ -55,8 +55,8 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::put('note/{note}',[CustomerController::class, 'edit_note']);
 
     //thesis
-    Route::post('customer/create_thesis/{customer}', [CustomerController::class, 'create_thesis']);
-    Route::post('customer/create_matrix/{customer}', [CustomerController::class, 'create_matrix']);
+    Route::get('customer/create_thesis/{customer}', [CustomerController::class, 'create_thesis']);
+    Route::get('customer/create_matrix/{customer}', [CustomerController::class, 'create_matrix']);
 
     /**
      * Plan Subscription

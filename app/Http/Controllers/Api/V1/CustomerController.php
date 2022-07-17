@@ -84,7 +84,7 @@ class CustomerController extends BaseController
 
     public function create_thesis(Customer $customer)
     {
-        [$file_stream, $file_name] = (new Thesis())->create($customer);
+        ['file_stream' => $file_stream, 'file_name' => $file_name] = (new Thesis())->create($customer);
         $file_stream = base64_encode($file_stream);
 
         return $this->sendResponse([

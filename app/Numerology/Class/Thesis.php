@@ -2,7 +2,6 @@
 
 namespace App\Numerology\Class;
 
-use App\Functions\Matrix;
 use App\Models\Anima;
 use App\Models\Grill;
 use App\Models\GrillBox;
@@ -12,6 +11,7 @@ use App\Models\Numeroespressione;
 use App\Models\Personality;
 use App\Models\Personalyear;
 use App\Models\Triad;
+use App\Numerology\Resource\MatrixResource;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\PhpWord;
@@ -41,10 +41,9 @@ class Thesis
 
     public function __construct()
     {
-        $this->matrix = new Matrix;
+        $this->matrix = new MatrixResource;
         $this->now_time = now();
-        $this->dir = plugin_dir_path( __DIR__ );
-        $this->templateProcessor = new TemplateProcessor($this->dir.'templates/template_word.docx');
+        $this->templateProcessor = new TemplateProcessor(Storage::disk('templates')->path('template_word.docx'));
         $this->analyze = array();
     }
 
@@ -58,28 +57,29 @@ class Thesis
 
         $this->theme_init_information($customer);
 
-        $this->analisi_numero_espressione();
+        // $this->analisi_numero_espressione();
 
-        $this->analisi_radice_generativa_epf();
-        $this->analisi_radice_generativa_epe();
-        $this->analisi_radice_generativa_epm();
+        // $this->analisi_radice_generativa_epf();
+        // $this->analisi_radice_generativa_epe();
+        // $this->analisi_radice_generativa_epm();
 
-        $this->valutazione_griglia_dinamica();
+        // $this->valutazione_griglia_dinamica();
 
-        $this->lezione_karmica();
+        // $this->lezione_karmica();
 
-        $this->analisi_anno_personale($customer["birthday"]);
+        // $this->analisi_anno_personale($customer["birthday"]);
 
-        $this->analisi_triadi();
+        // $this->analisi_triadi();
         //salvo il mio documento appena creato
-        $this->templateProcessor->saveAs(NMRL_DIR."public/storage/files/$fileName");
+        $path_file = Storage::disk('files')->path($fileName);
+        $this->templateProcessor->saveAs($path_file);
 
-        $file_stream = file_get_contents(storage_path("public/storage/files/$fileName"));
+        $file_stream = file_get_contents($path_file);
 
         Storage::disk('files')->delete($fileName);
 
         return [
-            'file_stream'   => $file_Stream,
+            'file_stream'   => $file_stream,
             'file_name' => $fileName,
 
         ];

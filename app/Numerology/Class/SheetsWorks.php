@@ -27,7 +27,7 @@ class SheetsWorks
 
 
         //nome del file finale del foglio di lavoro
-        $fileName = $customer->id.'_'.$customer->name.'_'.$customer->lastname.'.xls';
+        $fileName = $customer->id.'_'.$customer->name.'_'.$customer->lastname.'.xlsx';
         // dd(storage_path('public/templates/template_file.xlsx'));
         //prendo il template
         $spreadsheet = IOFactory::load(Storage::disk('templates')->path('template_file.xlsx'));
@@ -149,7 +149,7 @@ class SheetsWorks
 
 
         //creo il documento
-        $writer = IOFactory::createWriter($spreadsheet, 'Xls');
+        $writer = IOFactory::createWriter($spreadsheet, IOFactory::WRITER_XLSX);
 
         //salvo il documento
         $path_file = Storage::disk('files')->path($fileName);
@@ -157,7 +157,7 @@ class SheetsWorks
 
         $file_stream = file_get_contents($path_file);
 
-        // Storage::disk('files')->delete($fileName);
+        Storage::disk('files')->delete($fileName);
 
         return [
             'file_stream' => $file_stream,
