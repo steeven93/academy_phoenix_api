@@ -94,7 +94,7 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
      */
     Route::get('payment_method/', [UserController::class, 'getPaymentMethods'] );
     Route::get('payment_method/intent', [UserController::class, 'getIntentPaymentMethod'] );
-    // Route::post('payment_method/set',  [UserController::class, 'setPaymentMethod']);
+    Route::post('payment_method/set',  [UserController::class, 'setPaymentMethod']);
     Route::delete('payment_method/delete',  [UserController::class, 'deletePaymentMethod']);
 
 });
