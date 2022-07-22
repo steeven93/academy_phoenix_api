@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\Role;
+use App\Traits\Cashier\SubscriptionsSyncTrait;
+use function Illuminate\Events\queueable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,6 +25,7 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
     use Billable;
+    use SubscriptionsSyncTrait;
     /**
      * The attributes that are mass assignable.
      *
@@ -70,7 +73,17 @@ class User extends Authenticatable
         'has_subscription'
     ];
 
+    protected static function booted()
+    {
+        static::updated(queueable(function ($user) {
+            if ($user->hasStripeId()) {
+                $user->syncStripeCustomerDetails();
+                $user->syncSubscriptions();
+            }
+        }));
+    }
 
+    ////////////////////////////////////
     /**
      * Get all of the addresses for the User
      *
@@ -99,6 +112,16 @@ class User extends Authenticatable
     public function subscriptions(): HasMany
     {
         return $this->hasMany(Subscription::class);
+    }
+
+    /**
+     * Get the plan_subscription that owns the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function subscription(): HasOne
+    {
+        return $this->hasOne(Subscription::class);
     }
 
     /**

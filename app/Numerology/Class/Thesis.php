@@ -68,7 +68,7 @@ class Thesis
 
         $this->lezione_karmica();
 
-        $this->analisi_anno_personale($customer["birthday"]);
+        $this->analisi_anno_personale($customer->birthday);
 
         $this->analisi_triadi();
         //salvo il mio documento appena creato
@@ -195,7 +195,7 @@ class Thesis
 
         foreach($sum_split as $sp)
         {
-            if($sp != $this->expression_number && !in_array($sp, $this->analyze))
+            if($sp != $this->expression_number && !in_array($sp, $this->analyze) && $sp != 0)
             {
                 $contenuto = ExpressionNumber::getExpressionNumberExpression($sp)->first();
                 array_push($replacements,
@@ -390,10 +390,9 @@ class Thesis
         $this->templateProcessor->cloneBlock('block_karmico', 0, true, false, $replacements);
     }
 
-    public function analisi_anno_personale($compleanno)
+    public function analisi_anno_personale($birthday)
     {
         //Descrizione anno personale
-        $birthday = explode("-", $compleanno);
         $anno_personale = $this->anno_personale($birthday);
         $anno_personale_content = Personalyear::where('ref_year', $anno_personale)->first();
         $this->templateProcessor->setValue("numero_dev_anno", strval($anno_personale));
@@ -426,9 +425,9 @@ class Thesis
      */
     public function anno_personale($birthday)
     {
-        $anno = Date("Y");
-        $mese = $birthday[1];
-        $day = $birthday[2];
+        $anno = $birthday->format('Y');
+        $mese = $birthday->format('m');
+        $day = $birthday->format('d');
 
         $d_anno = $this->derived_sum_ridotta($anno);
         $d_mese = $this->derived_sum_ridotta($mese);
@@ -440,10 +439,11 @@ class Thesis
 
     public function derived_sum_ridotta($num)
     {
+        $num = intval($num);
         $d_num = $this->matrix->derived_sum($num);
         if($d_num > 9)
         {
-            $this->derived_sum_ridotta($d_num);
+            $d_num = $this->derived_sum_ridotta($d_num);
         }
 
         return $d_num;
