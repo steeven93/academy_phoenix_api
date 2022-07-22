@@ -57,19 +57,19 @@ class Thesis
 
         $this->theme_init_information($customer);
 
-        // $this->analisi_numero_espressione();
+        $this->analisi_numero_espressione();
 
-        // $this->analisi_radice_generativa_epf();
-        // $this->analisi_radice_generativa_epe();
-        // $this->analisi_radice_generativa_epm();
+        $this->analisi_radice_generativa_epf();
+        $this->analisi_radice_generativa_epe();
+        $this->analisi_radice_generativa_epm();
 
-        // $this->valutazione_griglia_dinamica();
+        $this->valutazione_griglia_dinamica();
 
-        // $this->lezione_karmica();
+        $this->lezione_karmica();
 
-        // $this->analisi_anno_personale($customer["birthday"]);
+        $this->analisi_anno_personale($customer["birthday"]);
 
-        // $this->analisi_triadi();
+        $this->analisi_triadi();
         //salvo il mio documento appena creato
         $path_file = Storage::disk('files')->path($fileName);
         $this->templateProcessor->saveAs($path_file);
@@ -108,11 +108,11 @@ class Thesis
 
     public function analisi_numero_espressione()
     {
-        $contents_espressione    =   ExpressionNumber::getExpressionNumberDefault($this->matrix->sums->sum_vowel_unvowel["numero_espressione"])->get();
+        $content_espressione    =   ExpressionNumber::getExpressionNumberDefault($this->matrix->sums->sum_vowel_unvowel["numero_espressione"])->get();
 
         $this->templateProcessor->setValue('content_espressione', $content_espressione->description);
 
-        $contents_num_espressione = ExpressionNumber::getExpressionNumberExpression($this->matrix->sums->sum_vowel_unvowel["numero_espressione"])->get();
+        $content_num_espressione = ExpressionNumber::getExpressionNumberExpression($this->matrix->sums->sum_vowel_unvowel["numero_espressione"])->get();
 
         $this->templateProcessor->setValue('content_num_espressione_luce', $content_num_espressione->content_light);
         $this->templateProcessor->setValue('content_num_espressione_ombra', $content_num_espressione->content_shadow);
@@ -174,14 +174,14 @@ class Thesis
         }
 
         //anima
-        $contents_anima = ExpressionNumber::getExpressionNumberSoul($derived_sum_vowel)->first();
+        $content_anima = ExpressionNumber::getExpressionNumberSoul($derived_sum_vowel)->first();
         $this->templateProcessor->setValue('numero_anima', $derived_sum_vowel);
-        $this->templateProcessor->setValue('content_anima', $content_anima->content_light);
+        $this->templateProcessor->setValue('content_anima', $content_anima->content);
 
         //personalita
-        $contens_personalita = ExpressionNumber::getExpressionNumberPersonality($derived_sum_unvowel)->first();
+        $content_personalita = ExpressionNumber::getExpressionNumberPersonality($derived_sum_unvowel)->first();
         $this->templateProcessor->setValue('numero_personalita', $derived_sum_unvowel);
-        $this->templateProcessor->setValue('content_personalita', $content_personalita->content_light);
+        $this->templateProcessor->setValue('content_personalita', $content_personalita->content);
 
         $this->templateProcessor->cloneBlock('block_epf_riptezione', 0, true, false, $replacements);
 
