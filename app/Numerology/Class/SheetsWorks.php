@@ -148,6 +148,10 @@ class SheetsWorks
         $worksheet->getCell("G12")->setValue($matrix->matrix->tabella[9]["count"]);
 
 
+        //Data di nascita
+        $worksheet->getCell("T13")->setValue($customer->birthday?->format('d'));
+        $worksheet->getCell("V13")->setValue($customer->birthday?->format('m'));
+        $worksheet->getCell("X13")->setValue($customer->birthday?->format('Y'));
         //creo il documento
         $writer = IOFactory::createWriter($spreadsheet, IOFactory::WRITER_XLSX);
 
