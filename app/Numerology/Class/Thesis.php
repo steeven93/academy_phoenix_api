@@ -10,7 +10,7 @@ use App\Models\KarmicLesson;
 use App\Models\Number;
 use App\Models\Numeroespressione;
 use App\Models\Personality;
-use App\Models\Personalyear;
+use App\Models\PersonalYear;
 use App\Models\Triad;
 use App\Numerology\Resource\MatrixResource;
 use Illuminate\Support\Arr;
@@ -394,7 +394,7 @@ class Thesis
     {
         //Descrizione anno personale
         $anno_personale = $this->anno_personale($birthday);
-        $anno_personale_content = Personalyear::where('ref_year', $anno_personale)->first();
+        $anno_personale_content = PersonalYear::where('ref_year', $anno_personale)->first();
         $this->templateProcessor->setValue("numero_dev_anno", strval($anno_personale));
         $this->templateProcessor->setValue("content_numero_anno", $anno_personale_content->description);
     }
