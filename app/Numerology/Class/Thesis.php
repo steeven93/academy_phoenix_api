@@ -232,7 +232,7 @@ class Thesis
 
         foreach($sum_split as $sp)
         {
-            if($sp != $this->expression_number && !in_array($sp, $this->analyze))
+            if($sp != $this->expression_number && !in_array($sp, $this->analyze) && $sp != 0)
             {
                 $contenuto = ExpressionNumber::getExpressionNumberExpression($sp)->first();
                 array_push($replacements,
