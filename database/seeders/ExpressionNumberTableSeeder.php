@@ -36,6 +36,101 @@ class ExpressionNumberTableSeeder extends Seeder
             'name'  =>  'PERSONALITY'
         ]);
 
+        ExpressionNumber::create([
+            'number'    =>  1,
+            'content'    =>  "",
+            'content_light'    =>  "",
+            'content_shadow'    =>  "",
+            'ipo'    =>  "",
+            'iper'    =>  "",
+            'expression_number_category_id'    =>  ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_DEFAULT
+        ]);
+
+        ExpressionNumber::create([
+            'number'    =>  2,
+            'content'    =>  "",
+            'content_light'    =>  "",
+            'content_shadow'    =>  "",
+            'ipo'    =>  "",
+            'iper'    =>  "",
+            'expression_number_category_id'    =>  ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_DEFAULT
+        ]);
+
+        ExpressionNumber::create([
+            'number'    =>  3,
+            'content'    =>  "",
+            'content_light'    =>  "",
+            'content_shadow'    =>  "",
+            'ipo'    =>  "",
+            'iper'    =>  "",
+            'expression_number_category_id'    =>  ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_DEFAULT
+        ]);
+
+
+        ExpressionNumber::create([
+            'number'    =>  4,
+            'content'    =>  "",
+            'content_light'    =>  "",
+            'content_shadow'    =>  "",
+            'ipo'    =>  "",
+            'iper'    =>  "",
+            'expression_number_category_id'    =>  ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_DEFAULT
+        ]);
+
+
+        ExpressionNumber::create([
+            'number'    =>  5,
+            'content'    =>  "",
+            'content_light'    =>  "",
+            'content_shadow'    =>  "",
+            'ipo'    =>  "",
+            'iper'    =>  "",
+            'expression_number_category_id'    =>  ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_DEFAULT
+        ]);
+
+
+        ExpressionNumber::create([
+            'number'    =>  6,
+            'content'    =>  "",
+            'content_light'    =>  "",
+            'content_shadow'    =>  "",
+            'ipo'    =>  "",
+            'iper'    =>  "",
+            'expression_number_category_id'    =>  ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_DEFAULT
+        ]);
+
+
+        ExpressionNumber::create([
+            'number'    =>  7,
+            'content'    =>  "",
+            'content_light'    =>  "",
+            'content_shadow'    =>  "",
+            'ipo'    =>  "",
+            'iper'    =>  "",
+            'expression_number_category_id'    =>  ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_DEFAULT
+        ]);
+
+
+        ExpressionNumber::create([
+            'number'    =>  8,
+            'content'    =>  "",
+            'content_light'    =>  "",
+            'content_shadow'    =>  "",
+            'ipo'    =>  "",
+            'iper'    =>  "",
+            'expression_number_category_id'    =>  ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_DEFAULT
+        ]);
+
+
+        ExpressionNumber::create([
+            'number'    =>  9,
+            'content'    =>  "",
+            'content_light'    =>  "",
+            'content_shadow'    =>  "",
+            'ipo'    =>  "",
+            'iper'    =>  "",
+            'expression_number_category_id'    =>  ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_DEFAULT
+        ]);
 
 
         ExpressionNumber::create([

@@ -19,28 +19,28 @@ class ExpressionNumber extends Model
     public function scopeGetExpressionNumberDefault($query, $expression_number)
     {
         return $query->where('number', $expression_number)
-        ->where('category_id', ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_DEFAULT)
+        ->where('expression_number_category_id', ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_DEFAULT)
         ->inRandomOrder();
     }
 
     public function scopeGetExpressionNumberExpression($query, $expression_number)
     {
         return $query->where('number', $expression_number)
-        ->where('category_id', ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_EXPRESSION)
+        ->where('expression_number_category_id', ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_EXPRESSION)
         ->inRandomOrder();
     }
 
     public function scopeGetExpressionNumberSoul($query, $expression_number)
     {
         return $query->where('number', $expression_number)
-        ->where('category_id', ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_SOUL)
+        ->where('expression_number_category_id', ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_SOUL)
         ->inRandomOrder();
     }
 
     public function scopeGetExpressionNumberPersonality($query, $expression_number)
     {
         return $query->where('number', $expression_number)
-        ->where('category_id', ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_PERSONALITY)
+        ->where('expression_number_category_id', ExpressionNumberCategory::EXPRESSION_NUMBER_CATEGORY_PERSONALITY)
         ->inRandomOrder();
     }
 }

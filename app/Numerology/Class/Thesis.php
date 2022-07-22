@@ -3,6 +3,7 @@
 namespace App\Numerology\Class;
 
 use App\Models\Anima;
+use App\Models\ExpressionNumber;
 use App\Models\Grill;
 use App\Models\GrillBox;
 use App\Models\KarmicLesson;
@@ -108,11 +109,11 @@ class Thesis
 
     public function analisi_numero_espressione()
     {
-        $content_espressione    =   ExpressionNumber::getExpressionNumberDefault($this->matrix->sums->sum_vowel_unvowel["numero_espressione"])->get();
+        $content_espressione    =   ExpressionNumber::getExpressionNumberDefault($this->matrix->sums->sum_vowel_unvowel["numero_espressione"])->first();
 
-        $this->templateProcessor->setValue('content_espressione', $content_espressione->description);
+        $this->templateProcessor->setValue('content_espressione', $content_espressione->content);
 
-        $content_num_espressione = ExpressionNumber::getExpressionNumberExpression($this->matrix->sums->sum_vowel_unvowel["numero_espressione"])->get();
+        $content_num_espressione = ExpressionNumber::getExpressionNumberExpression($this->matrix->sums->sum_vowel_unvowel["numero_espressione"])->first();
 
         $this->templateProcessor->setValue('content_num_espressione_luce', $content_num_espressione->content_light);
         $this->templateProcessor->setValue('content_num_espressione_ombra', $content_num_espressione->content_shadow);
