@@ -16,6 +16,8 @@
         "laravel/tinker": "^2.7",
         "phpoffice/phpspreadsheet": "^1.23",
         "phpoffice/phpword": "^0.18.3",
+        "symfony/http-client": "^6.0",
+        "symfony/mailgun-mailer": "^6.0",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
