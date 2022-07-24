@@ -19,7 +19,8 @@ class CustomerController extends BaseController
 {
     public function get_customers()
     {
-        $customers = Customer::all();
+        $user_id = request()->user()->id;
+        $customers = Customer::customerUser($user_id)->get();
         return $this->sendResponse($customers);
     }
 

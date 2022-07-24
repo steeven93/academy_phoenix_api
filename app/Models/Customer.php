@@ -25,4 +25,13 @@ class Customer extends Model
     {
         return $this->hasMany(Note::class);
     }
+
+    /**Scopes
+     *
+     */
+
+     public function scopeCustomeruser($query, $user_id)
+     {
+        return $query->where('user_id', $user_id);
+     }
 }
